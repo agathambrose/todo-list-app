@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsPlusSquareFill } from "react-icons/bs";
 import "./TodoForm.css";
 import { v4 as uuidv4 } from "uuid";
@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #fff",
     borderRadius: "5px",
     boxShadow: theme.shadows[5],
-    // padding: theme.spacing(2, 6, 3),
     overflow: "hidden",
     outline: "none",
   },
@@ -22,7 +21,18 @@ const useStyles = makeStyles((theme) => ({
 const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState(["All", "Done", "Not Done"]);
+  const [options, setOptions] = useState([]);
+  const [categoryInput, setCategoryInput] = useState("");
+  console.log(categoryInput);
+
+  useEffect(() => {
+    let storedCategories = localStorage.getItem("other-categories");
+    if (storedCategories) {
+      let parsedStoredCategories = JSON.parse(storedCategories);
+      setOptions(parsedStoredCategories.filter(Boolean)[0]);
+      console.log(parsedStoredCategories);
+    }
+  }, []);
 
   const handleChange = (event) => {
     setInputTodo(event.target.value);
@@ -46,8 +56,31 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.preventDefault();
+    handleCategoryOptions();
+    let storedCategories = localStorage.getItem("other-categories");
+    if (!storedCategories) {
+      localStorage.setItem("other-categories", JSON.stringify([setOptions]));
+    } else {
+      let parsedStoredCategories = JSON.parse(storedCategories);
+      parsedStoredCategories.push(options);
+      localStorage.setItem(
+        "other-categories",
+        JSON.stringify(parsedStoredCategories)
+      );
+    }
+    setCategoryInput("");
     setOpen(false);
+  };
+
+  const handleCategoryInput = (event) => {
+    setCategoryInput(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleCategoryOptions = () => {
+    options.push(categoryInput);
   };
 
   return (
@@ -82,6 +115,9 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
             <option value="all">All Todos</option>
             <option value="done">Done</option>
             <option value="not-done">Not Done</option>
+            {options.map((option) => {
+              return option && option.length ? <option>{option}</option> : null;
+            })}
           </select>
         </div>
       </form>
@@ -111,8 +147,10 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
             <form className="flex flex-col items-center justify-center">
               <input
                 type="text"
+                value={categoryInput}
                 className="w-4/5 p-2 mb-2 text-center bg-gray-200 border border-gray-200 rounded md:w-full"
                 placeholder="Enter category name"
+                onChange={handleCategoryInput}
               />
               <button
                 className="w-4/5 p-2 my-2 text-white bg-blue-500 rounded md:w-full hover:bg-blue-600"
