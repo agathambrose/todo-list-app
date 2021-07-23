@@ -115,8 +115,10 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
             <option value="all">All Todos</option>
             <option value="done">Done</option>
             <option value="not-done">Not Done</option>
-            {options.map((option) => {
-              return option && option.length ? <option>{option}</option> : null;
+            {options && options.map((option) => {
+              return option && option.length ? (
+                <option key={uuidv4()}>{option}</option>
+              ) : null;
             })}
           </select>
         </div>
