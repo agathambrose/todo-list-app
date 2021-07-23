@@ -40,8 +40,8 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (setTodos() === "") {
-      setInputTodo("");
+    if (!inputTodo.trim()) {
+      setInputTodo(null);
     } else {
       setTodos([...todos, { text: inputTodo, done: false, id: uuidv4() }]);
     }
