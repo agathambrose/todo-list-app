@@ -59,17 +59,7 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
   const handleClose = (event) => {
     event.preventDefault();
     handleCategoryOptions();
-    let storedCategories = localStorage.getItem("other-categories");
-    if (!storedCategories) {
-      localStorage.setItem("other-categories", JSON.stringify([setOptions]));
-    } else {
-      let parsedStoredCategories = JSON.parse(storedCategories);
-      parsedStoredCategories.push(categoryInput);
-      localStorage.setItem(
-        "other-categories",
-        JSON.stringify(parsedStoredCategories)
-      );
-    }
+    localStorage.setItem("other-categories", JSON.stringify(options));
     setCategoryInput("");
     setOpen(false);
   };
@@ -115,11 +105,12 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
             <option value="all">All Todos</option>
             <option value="done">Done</option>
             <option value="not-done">Not Done</option>
-            {options && options.map((option) => {
-              return option && option.length ? (
-                <option key={uuidv4()}>{option}</option>
-              ) : null;
-            })}
+            {options &&
+              options.map((option) => {
+                return option && option.length ? (
+                  <option key={uuidv4()}>{option}</option>
+                ) : null;
+              })}
           </select>
         </div>
       </form>
