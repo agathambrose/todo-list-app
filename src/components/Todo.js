@@ -1,5 +1,5 @@
 import React from "react";
-import { FaThumbsUp, FaTrash } from "react-icons/fa";
+import { FaThumbsUp,  FaTrash } from "react-icons/fa";
 
 const Todo = ({ text, todo, todos, setTodos }) => {
   const handleDelete = () => {

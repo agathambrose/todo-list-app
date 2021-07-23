@@ -29,7 +29,7 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
     let storedCategories = localStorage.getItem("other-categories");
     if (storedCategories) {
       let parsedStoredCategories = JSON.parse(storedCategories);
-      setOptions(parsedStoredCategories.filter(Boolean)[0]);
+      setOptions(parsedStoredCategories.filter(Boolean));
       console.log(parsedStoredCategories);
     }
   }, []);
@@ -64,7 +64,7 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
       localStorage.setItem("other-categories", JSON.stringify([setOptions]));
     } else {
       let parsedStoredCategories = JSON.parse(storedCategories);
-      parsedStoredCategories.push(options);
+      parsedStoredCategories.push(categoryInput);
       localStorage.setItem(
         "other-categories",
         JSON.stringify(parsedStoredCategories)
