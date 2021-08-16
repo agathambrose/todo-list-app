@@ -30,7 +30,7 @@ const Todo = ({ text, todo, todos, setTodos }) => {
   return (
     <div className="flex items-center justify-center mx-2 mt-6">
       <li
-        className={`min-w-64 min-h-20 pt-2 pl-2 bg-white rounded md:w-96 ${
+        className={`min-w-64 min-h-20 py-2 pl-2 bg-white rounded md:w-96 ${
           todo.done ? "opacity-25" : ""
         }`}
       >
