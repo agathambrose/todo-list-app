@@ -65,7 +65,11 @@ const Form = ({ todos, setTodos, inputTodo, setInputTodo, setCategory }) => {
   };
 
   const handleCategoryInput = (event) => {
-    setCategoryInput(event.target.value);
+    if (!categoryInput.trim()) {
+      setCategoryInput(null);
+    } else {
+      setCategoryInput(event.target.value);
+    }
     console.log(event.target.value);
   };
 
